@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "build": "npx tsc",
+    "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "nodemon src/index.ts"
+    "dev": "npm run build && node dist/index.js"
   },
   "author": "Raja Avinash Alli",
   "license": "ISC",

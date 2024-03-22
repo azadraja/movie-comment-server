@@ -1,9 +1,9 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import GraphQLJSON from "graphql-type-json";
-import { resolvers as commentResolvers } from "./resolvers/resolvers";
+import { resolvers as commentResolvers } from "./src/resolvers/resolvers.js";
 import { ApolloServer } from "@apollo/server";
-import { typeDefs } from "./schema/schema";
+import { typeDefs } from "./src/schema/schema.js";
 import { expressMiddleware } from "@apollo/server/express4";
 import cors from "cors";
 
