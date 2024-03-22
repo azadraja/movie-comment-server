@@ -1,0 +1,37 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  author    String   @db.VarChar(255)
+  content   Json?
+  movieId   Int
+  replies   Reply[]
+}
+
+model Reply {
+  id        Int     @id @default(autoincrement())
+  comment   Comment? @relation(fields: [commentId], references: [id])
+  commentId Int?
+  content   Json?
+  author    String   @db.VarChar(255)
+  replyId   Int?
+  replies   Reply[] @relation("ReplyReplies")
+  parent    Reply? @relation(name: "ReplyReplies", fields: [replyId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
