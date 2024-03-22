@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "build": "npx tsc",
-    "start": "node dist/index.js",
-    "dev": "npm run build && node dist/index.js"
+    "start": "node dist/src/index.js",
+    "dev": "npm run build && node dist/src/index.js"
   },
   "author": "Raja Avinash Alli",
   "license": "ISC",
