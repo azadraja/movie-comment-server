@@ -1,8 +1,7 @@
-import prisma from "../../lib/prisma.js";
-
+import prisma from "../prisma/prisma.js";
 export const resolvers = {
   Query: {
-    comments: (parent: any, args: any, contextValue: any, info: any) => {
+    comments: (parent, args, contextValue, info) => {
       return prisma.comment.findMany({
         where: { movieId: { equals: args.movieId } },
         include: {
@@ -16,17 +15,17 @@ export const resolvers = {
     },
   },
   Mutation: {
-    createComment: (parent: any, args: any, contextValue: any) => {
+    createComment: (parent, args, contextValue) => {
       return prisma.comment.create({ data: args });
     },
-    deleteComment: (parent: any, args: any, contextValue: any) => {
+    deleteComment: (parent, args, contextValue) => {
       return prisma.comment.delete({ where: { id: args.id } });
     },
     // createReply(commentId: Int!, replyId: Int, content: JSON!, author: String!): Reply!
-    createReply: (parent: any, args: any) => {
+    createReply: (parent, args) => {
       return prisma.reply.create({ data: args });
     },
-    updateComment: (parent: any, args: any, contextValue: any) => {
+    updateComment: (parent, args, contextValue) => {
       return prisma.comment.update({
         where: { id: args.id },
         data: args,

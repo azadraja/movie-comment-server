@@ -10,8 +10,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING")
+  url      = env("POSTGRES_PRISMA_URL")
 }
 
 model Comment {
@@ -25,14 +24,14 @@ model Comment {
 }
 
 model Reply {
-  id        Int     @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   comment   Comment? @relation(fields: [commentId], references: [id])
   commentId Int?
   content   Json?
   author    String   @db.VarChar(255)
   replyId   Int?
-  replies   Reply[] @relation("ReplyReplies")
-  parent    Reply? @relation(name: "ReplyReplies", fields: [replyId], references: [id])
+  replies   Reply[]  @relation("ReplyReplies")
+  parent    Reply?   @relation(name: "ReplyReplies", fields: [replyId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
