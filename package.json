@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "rimraf dist && tsc",
+    "build": "rimraf dist && prisma generate && tsc",
     "start": "nodemon src/index.ts",
     "ts.check": "tsc --project tsconfig.json",
-    "add-build": "git add dist"
+    "add-build": "git add dist",
+    "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "Raja Avinash Alli",
