@@ -24,6 +24,7 @@ app.get("/", (req, res) => {
     res.send({ status: "success", data: { message } });
 });
 app.use("/api/graphql", cors(), express.json(), expressMiddleware(server));
+console.log("Starting server...");
 // Start the Server
 app.listen(port, () => {
     console.log(`Server is listening at http://localhost:${port}`);
