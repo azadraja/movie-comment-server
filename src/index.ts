@@ -1,9 +1,9 @@
 import express, { Express } from "express";
 import dotenv from "dotenv";
 import GraphQLJSON from "graphql-type-json";
-import { resolvers as commentResolvers } from "./resolvers/resolvers.js";
+import { resolvers as commentResolvers } from "./resolvers/resolvers";
 import { ApolloServer } from "@apollo/server";
-import { typeDefs } from "./schema/schema.js";
+import { typeDefs } from "./schema/schema";
 import { expressMiddleware } from "@apollo/server/express4";
 import cors from "cors";
 
@@ -21,15 +21,16 @@ const server = new ApolloServer({
   resolvers,
 });
 
-await server.start();
+(async () => {
+  await server.start();
+  app.use("/api/graphql", cors(), express.json(), expressMiddleware(server));
+})();
 
 app.get("/", (req, res) => {
   const message = `Hello World! I am a Node.js server running on ${process.env.NODE_ENV} mode.`;
   console.log(message);
   res.send({ status: "success", data: { message } });
 });
-
-app.use("/api/graphql", cors(), express.json(), expressMiddleware(server));
 
 console.log("Starting server...");
 // Start the Server

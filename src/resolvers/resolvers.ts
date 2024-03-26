@@ -1,4 +1,4 @@
-import prisma from "../prisma/prisma.js";
+import prisma from "../prisma/prisma";
 export const resolvers = {
   Query: {
     comments: (parent, args, contextValue, info) => {
