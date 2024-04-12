@@ -10,18 +10,16 @@ exports.typeDefs = `
     author: String
     createdAt: String
     updatedAt: String
-    replies: [Reply]
+    parentId: Int
+    children: [Comment]
   }
 
-  type Reply {
+  type User {
     id: ID
-    commentId: Int
-    replyId: Int
-    content: JSON
-    author: String
+    email: String
     createdAt: String
     updatedAt: String
-    replies: [Reply]
+    token: String
   }
 
   type Query {
@@ -29,8 +27,9 @@ exports.typeDefs = `
   }
 
   type Mutation {
-    createComment(movieId: Int!, content: JSON!, author: String!): Comment!
-    createReply(commentId: Int, replyId: Int, content: JSON!, author: String!): Reply!
+    register(email: String!, password: String!): User!
+    login(email: String!, password: String!): User!
+    createComment(movieId: Int!, content: JSON!, author: String!, parentId: Int): Comment!
     deleteComment(id: Int!): Comment!
     updateComment(id: Int!, movieId: Int!, content: JSON!, author: String!): Comment!
   }

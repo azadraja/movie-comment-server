@@ -30,7 +30,11 @@ const server = new server_1.ApolloServer({
 });
 (() => __awaiter(void 0, void 0, void 0, function* () {
     yield server.start();
-    app.use("/api/graphql", (0, cors_1.default)(), express_1.default.json(), (0, express4_1.expressMiddleware)(server));
+    app.use("/api/graphql", (0, cors_1.default)(), express_1.default.json(), (0, express4_1.expressMiddleware)(server, {
+        context: (_a) => __awaiter(void 0, [_a], void 0, function* ({ req }) {
+            return { req };
+        }),
+    }));
 }))();
 app.get("/", (req, res) => {
     const message = `Hello World! I am a Node.js server running on ${process.env.NODE_ENV} mode.`;

@@ -21,18 +21,15 @@ model Comment {
   author    String   @db.VarChar(255)
   content   Json?
   movieId   Int
-  replies   Reply[]
+  parentId  Int?
+  parent      Comment? @relation("CommentToParent", fields: [parentId], references: [id])
+  children    Comment[] @relation("CommentToParent")
 }
 
-model Reply {
-  id        Int      @id @default(autoincrement())
-  comment   Comment? @relation(fields: [commentId], references: [id])
-  commentId Int?
-  content   Json?
-  author    String   @db.VarChar(255)
-  replyId   Int?
-  replies   Reply[]  @relation("ReplyReplies")
-  parent    Reply?   @relation(name: "ReplyReplies", fields: [replyId], references: [id])
+model User {
+  id        Int @id  @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  email     String   @unique @db.VarChar(255)
+  password  String   
 }
