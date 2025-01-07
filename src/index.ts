@@ -9,7 +9,7 @@ import cors from "cors";
 
 dotenv.config();
 const app: Express = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 4001;
 
 const resolvers = {
   JSON: GraphQLJSON,

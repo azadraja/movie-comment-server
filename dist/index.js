@@ -22,7 +22,7 @@ const express4_1 = require("@apollo/server/express4");
 const cors_1 = __importDefault(require("cors"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 4001;
 const resolvers = Object.assign({ JSON: graphql_type_json_1.default }, resolvers_1.resolvers);
 const server = new server_1.ApolloServer({
     typeDefs: schema_1.typeDefs,

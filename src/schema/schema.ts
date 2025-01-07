@@ -1,5 +1,44 @@
+
+
 export const typeDefs = `
   scalar JSON
+
+  type Movie {
+    id: ID!
+    title: String!
+    poster_path: String!
+    backdrop_path: String!
+    vote_average: Float!
+    overview: String!
+    credits: Credits
+  }
+  
+  type Credits {
+    id: ID!
+    cast: [Cast!]!
+    crew: [Crew!]!
+  }
+
+  type Cast {
+    character: String!
+    credit_id: Int!
+    name: String!
+    profile_path: String!
+  }
+
+  type Crew {
+    job: String!
+    name: String!
+    credit_id: Int!
+  }
+  
+  type PopularMovieResults {
+    total_results: Int!
+    total_pages: Int!
+    page: Int!
+    results: [Movie!]!
+  }
+
   type Comment {
     id: ID
     movieId: Int
@@ -21,6 +60,8 @@ export const typeDefs = `
 
   type Query {
     comments(movieId: Int!): [Comment]!
+    popularMovies(page: Int!): PopularMovieResults!
+    getMovie(movieId: ID!): Movie!
   }
 
   type Mutation {

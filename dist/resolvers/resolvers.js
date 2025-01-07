@@ -17,9 +17,10 @@ const prisma_1 = __importDefault(require("../prisma/prisma"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const graphql_1 = require("graphql");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const getMovieUrl_1 = require("../utils/getMovieUrl");
 exports.resolvers = {
     Query: {
-        comments: (parent, args, contextValue, info) => {
+        comments: (___, args, _, __) => {
             return prisma_1.default.comment.findMany({
                 where: {
                     movieId: { equals: args.movieId },
@@ -34,32 +35,45 @@ exports.resolvers = {
                 },
             });
         },
+        popularMovies: (_1, _a, ___1) => __awaiter(void 0, [_1, _a, ___1], void 0, function* (_, { page }, ___) {
+            const res = yield fetch((0, getMovieUrl_1.getPopularMovieUrl)(page));
+            return yield res.json();
+        }),
+        getMovie: (_2, _b, ___2) => __awaiter(void 0, [_2, _b, ___2], void 0, function* (_, { movieId }, ___) {
+            const res = yield fetch((0, getMovieUrl_1.getMovieUrl)(movieId));
+            return yield res.json();
+        })
+    },
+    Movie: {
+        credits: (_c, _3, __1) => __awaiter(void 0, [_c, _3, __1], void 0, function* ({ id }, _, __) {
+            const res = yield fetch((0, getMovieUrl_1.getCreditsUrl)(id));
+            return yield res.json();
+        })
     },
     Mutation: {
-        createComment: (parent, args, contextValue) => {
+        createComment: (_, args, contextValue) => {
             console.log(contextValue);
-            const token = contextValue.req.headers["authorization"];
-            if (!token)
-                throw new graphql_1.GraphQLError("Username or password do not match", {
-                    extensions: {
-                        code: "UNAUTHENTICATED",
-                        http: { status: 401 },
-                    },
-                });
-            try {
-                jsonwebtoken_1.default.verify(token, "secret");
-            }
-            catch (error) {
-                throw new graphql_1.GraphQLError("Username or password do not match", {
-                    extensions: {
-                        code: "UNAUTHENTICATED",
-                        http: { status: 401 },
-                    },
-                });
-            }
+            // const token = contextValue.req.headers["authorization"];
+            // if (!token)
+            //   throw new GraphQLError("Username or password do not match", {
+            //     extensions: {
+            //       code: "UNAUTHENTICATED",
+            //       http: { status: 401 },
+            //     },
+            //   });
+            // try {
+            //   jwt.verify(token, "secret");
+            // } catch (error) {
+            //   throw new GraphQLError("Username or password do not match", {
+            //     extensions: {
+            //       code: "UNAUTHENTICATED",
+            //       http: { status: 401 },
+            //     },
+            //   });
+            // }
             return prisma_1.default.comment.create({ data: args });
         },
-        login: (parent, args, contextValue) => __awaiter(void 0, void 0, void 0, function* () {
+        login: (_, args, __) => __awaiter(void 0, void 0, void 0, function* () {
             const user = yield prisma_1.default.user.findFirst({
                 where: { email: args.email },
             });
@@ -83,16 +97,16 @@ exports.resolvers = {
             console.log(`token is ${token}`);
             return Object.assign(Object.assign({}, user), { token });
         }),
-        register: (parent, args, contextValue) => {
+        register: (parent, args, _) => {
             const hash = bcrypt_1.default.hashSync(args.password, 2);
             return prisma_1.default.user.create({
                 data: { email: args.email, password: hash },
             });
         },
-        deleteComment: (parent, args, contextValue) => {
+        deleteComment: (parent, args, _) => {
             return prisma_1.default.comment.delete({ where: { id: args.id } });
         },
-        updateComment: (parent, args, contextValue) => {
+        updateComment: (parent, args, _) => {
             return prisma_1.default.comment.update({
                 where: { id: args.id },
                 data: args,
